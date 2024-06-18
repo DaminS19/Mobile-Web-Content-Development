@@ -1,0 +1,23 @@
+<html> 
+  <head> 
+    <meta name="viewport" content="width=device-width" />
+    <style>
+      body {margin: 0;}
+    </style>
+  </head> 
+  <body onmousemove="drawBox(event)"> 
+    <canvas id="c"></canvas> 
+    <script> 
+      var canvas = document.getElementById("c");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      var c = canvas.getContext("2d");
+      c.fillStyle = "red";
+ 
+      function drawBox(e) {
+        c.fillRect(e.clientX, e.clientY, 20, 20);
+      }
+    </script> 
+  </body> 
+</html>

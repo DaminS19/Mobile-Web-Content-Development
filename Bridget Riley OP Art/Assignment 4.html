@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movement in Squares</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      #movementCanvas {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="movementCanvas"></canvas>
+    <script>
+      let canvas = document.getElementById("movementCanvas");
+      let ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let squareSize = 50;
+      let spacing = 50;
+      let numRows = Math.ceil(canvas.height / spacing);
+      let numCols = Math.ceil(canvas.width / spacing);
+
+      function drawMovementInSquares() {
+        for (let i = 0; i < numRows; i++) {
+          for (let j = 0; j < numCols; j++) {
+            if ((i + j) % 2 === 0) {
+              ctx.fillStyle = "black";
+            } else {
+              ctx.fillStyle = "white";
+            }
+
+            let currentColumnWidth = squareSize;
+            const centerColumn = Math.floor(numCols / 4);
+
+            if (j > centerColumn) {
+              const maxColumnWidth = squareSize * 1.3;
+              const distanceFromCenter = j - centerColumn;
+              currentColumnWidth = maxColumnWidth - distanceFromCenter * 10;
+            }
+
+            const x = j * spacing + Math.max(0, (squareSize - currentColumnWidth) / 2);
+
+            ctx.fillRect(x, i * spacing, currentColumnWidth, squareSize);
+          }
+        }
+      }
+      drawMovementInSquares();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+function Person(name, age, height, pets) {
+  return {
+    name: name, age: age, height: height, pets: pets,
+    
+    doYouLikePets: function() {
+      if (this.pets && this.pets.length > 0) {
+        console.log(this.name + " is a pet loving person!");
+      } else {
+        console.log(this.name + " is a pet free person");
+      }
+    }
+  };
+}
+
+var petLoving = Person("Yes-Pet", 23, "5'8\"", [ "Dog", "Rabbit", "Dinosaur"]);
+var petFree = Person("No-Pet", 27, "5'6\"", []);
+
+petLoving.doYouLikePets(); 
+petFree.doYouLikePets(); 

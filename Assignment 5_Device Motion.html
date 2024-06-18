@@ -1,0 +1,154 @@
+<html>
+  <head>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">  -->
+    <title>Spin The Squares</title>
+
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      #board {
+        display: block;
+      }
+
+      #Ask_Motion_Access {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+        padding: 10px;
+        background-color: #00c3f9;
+        color: #000000;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="Ask_Motion_Access">Grant Access To Spin The Squares</button>
+    <canvas id="board"></canvas>
+    <script>
+      var canvas = document.getElementById("board");
+      var ctx = canvas.getContext("2d");
+      var screenWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+      var screenHeight =
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight;
+
+      canvas.width = screenWidth;
+      canvas.height = screenHeight;
+
+      var minDimension = Math.min(screenWidth, screenHeight);
+      var squareSize = minDimension / Math.ceil(minDimension / 100);
+
+      var columns = Math.floor(screenWidth / squareSize);
+      var rows = Math.floor(screenHeight / squareSize);
+
+      var squares = [];
+
+      function initializeBoard() {
+        squares = [];
+        for (var i = 0; i < rows; i++) {
+          for (var j = 0; j < columns; j++) {
+            squares.push({
+              x: j * squareSize,
+              y: i * squareSize,
+              isDark: (i + j) % 2 === 0,
+            });
+          }
+        }
+      }
+
+      initializeBoard();
+
+      var motionX = 0;
+      var motionY = 0;
+
+      window.addEventListener("resize", function () {
+        screenWidth =
+          window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth;
+        screenHeight =
+          window.innerHeight ||
+          document.documentElement.clientHeight ||
+          document.body.clientHeight;
+
+        canvas.width = screenWidth;
+        canvas.height = screenHeight;
+
+        minDimension = Math.min(screenWidth, screenHeight);
+        squareSize = minDimension / Math.ceil(minDimension / 100);
+
+        columns = Math.floor(screenWidth / squareSize);
+        rows = Math.floor(screenHeight / squareSize);
+
+        initializeBoard();
+      });
+
+      var permissionButton = document.getElementById("Ask_Motion_Access");
+      permissionButton.addEventListener("click", requestDeviceMotionPermission);
+
+      function requestDeviceMotionPermission() {
+        if (
+          typeof DeviceMotionEvent !== "undefined" &&
+          typeof DeviceMotionEvent.requestPermission === "function"
+        ) {
+          DeviceMotionEvent.requestPermission()
+            .then((permissionState) => {
+              if (permissionState === "granted") {
+                window.addEventListener("devicemotion", handleMotionEvent);
+                permissionButton.style.display = "none";
+                requestAnimationFrame(animate);
+              }
+            })
+            .catch(console.error);
+        } else {
+          window.addEventListener("devicemotion", handleMotionEvent);
+          permissionButton.style.display = "none";
+          requestAnimationFrame(animate);
+        }
+      }
+
+      Ask_Motion_Access.onclick = requestDeviceMotionPermission;
+
+      function handleMotionEvent(event) {
+        motionX = 0.1 * event.rotationRate.beta + 0.9 * motionX; 
+        motionY = 0.1 * event.rotationRate.alpha + 0.9 * motionY;
+      }
+
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (var i = 0; i < squares.length; i++) {
+          var square = squares[i];
+          ctx.fillStyle = square.isDark ? "#000" : "#fff";
+          ctx.save();
+          ctx.translate(square.x + squareSize / 2, square.y + squareSize / 2);
+          ctx.rotate((Math.PI / 180) * motionY);
+
+          ctx.beginPath();
+          ctx.rect(-squareSize / 2, -squareSize / 2, squareSize, squareSize);
+          ctx.fill();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "#000";
+          ctx.stroke();
+
+          ctx.restore();
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      animate(); 
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<html>
+<head>
+  <title>Geolocation Example</title>
+</head>
+<body>
+
+<h1>Geolocation Example</h1>
+
+<p id="demo">Click the button to get your location.</p>
+
+<button onclick="getLocation()">Get Location</button>
+
+<script>
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  document.getElementById("demo").innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
+}
+
+function showError(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      document.getElementById("demo").innerHTML = "User denied the request for Geolocation.";
+      break;
+    case error.POSITION_UNAVAILABLE:
+      document.getElementById("demo").innerHTML = "Location information is unavailable.";
+      break;
+    case error.TIMEOUT:
+      document.getElementById("demo").innerHTML = "The request to get user location timed out.";
+      break;
+    case error.UNKNOWN_ERROR:
+      document.getElementById("demo").innerHTML = "An unknown error occurred.";
+      break;
+  }
+}
+
+<iFrame src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3024.291214682155!2d-74.00476806191267!3d40.711605300000016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDQyJzQxLjkiTiA3NMKwMDAnMTguNiJX!5e0!3m2!1sen!2sus!4v1709252047597!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iFrame>
+</script>
+
+</body>
+</html>

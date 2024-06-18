@@ -1,0 +1,56 @@
+<html>
+<body onmouseover="doSomething(event)">
+
+<style>
+    h1 {color: red; font:30pt Verdana;}
+    #randomText {color: purple; font-weight:bold ;}
+    img { max-width: 150px; height: auto;}
+    #asteroid {
+      background-color: black; color: aqua; padding: 5px;
+      position: absolute; top: 180px; left: 50px;
+    }
+    
+</style>
+<script>
+function doSomething(theMouseObject){
+  //console.log("In doSomething()...", theMouseObject);
+  console.log(theMouseObject.clientX, "," ,theMouseObject.clientY);
+  moveAsteroid(theMouseObject.clientX, theMouseObject.clientY);
+}  
+function changeWord() {
+    console.log("In changeWord()...");
+    let newWord = "boring";
+    //change random to boring 
+    let theWord = document.getElementById("randomText");
+    //debugger;
+    //theWord.innerText = newWord;
+    //theWord.innerHTML = "<img src='/Users/daminsmac/Desktop/PACE2023/SEM-3/CS641/Assignment 2/Ultra_Logo.png'>";
+    let tempHTML = "";
+    for (let n=0; n<200; n++){
+    tempHTML += "<img src='/Users/daminsmac/Desktop/PACE2023/SEM-3/CS641/Assignment 2/Ultra_Logo.png'>";}
+    theWord.innerHTML = tempHTML;
+    
+  }
+function moveAsteroid(x,y){
+  console.log("hi",x,y);
+  let theAsteroid = document.getElementById("asteroid");
+  //move it 
+  //theAsteroid.style.top = "100px";
+  theAsteroid.style.top = y + "px";
+  theAsteroid.style.left = x + "px";
+  
+}
+
+</script>
+<div id="asteroid">
+I am an asteroid
+</div>
+
+  <h1> Random file </h1>
+  <p> Let's See the <span id="randomText">Magic</span></p>
+    
+<button onclick="changeWord()">Click me</button>  
+<button onclick="moveAsteroid()">Move The Asteroid</button>  
+</body>
+</html>
+

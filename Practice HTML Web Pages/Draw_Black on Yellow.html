@@ -1,0 +1,38 @@
+<html>
+<body style="background-color:yellow;" onmousemove="onBodyMouseOver(event)">
+<body style="background-color:rgb(6, 29, 236);" ontouchmove="onBodytouchmove(event)">
+
+    <canvas id="myCanvas"></canvas>
+
+<script>
+    let canvas = document.getElementById("myCanvas");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    let c = canvas.getContext("2d");
+    c.fillRect(20,20,100,100);
+
+    function onBodyMouseOver(theMouseEvent) {
+        console.log(theMouseEvent.clientX, theMouseEvent.clientY);
+        c.fillRect(theMouseEvent.clientX, theMouseEvent.clientY, 10, 10);
+    }
+
+    function onBodytouchmove(event) {
+        console.log(event.touches[0].clientX, event.touches[0].clientY);
+        c.fillRect(event.touches[0].clientX, event.touches[0].clientY, 10, 10);
+    }
+
+/*
+    document.ontouchmove = function(e){
+        e.preventDefault();
+
+    for (var n=0; n<e,touches,length; n++){
+    c.fillRect(e.touches[n].clientX,e.touches[n].clientY);
+    }
+}
+*/
+
+</script>
+
+</body>
+</html>
